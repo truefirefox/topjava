@@ -7,6 +7,12 @@ function makeEditable() {
     });
     // solve problem with cache in IE: https://stackoverflow.com/a/4303862/548473
     $.ajaxSetup({ cache: false });
+
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
 }
 
 function add() {
@@ -22,12 +28,6 @@ function updateRow(id) {
             form.find("input[name='" + key + "']").val(value);
         });
         $('#editRow').modal();
-    });
-
-    var token = $("meta[name='_csrf']").attr("content");
-    var header = $("meta[name='_csrf_header']").attr("content");
-    $(document).ajaxSend(function(e, xhr, options) {
-        xhr.setRequestHeader(header, token);
     });
 }
 
@@ -80,6 +80,7 @@ function successNoty(key) {
 
 function failNoty(jqXHR) {
     closeNoty();
+    console.log(jqXHR.responseText);
     var errorInfo = $.parseJSON(jqXHR.responseText);
     failedNote = noty({
         text: i18n['common.errorStatus'] + ': ' + jqXHR.status + '<br>'+ errorInfo.cause + '<br>' + errorInfo.detail,
