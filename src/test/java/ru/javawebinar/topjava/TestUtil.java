@@ -4,10 +4,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import ru.javawebinar.topjava.model.User;
 
 import java.io.UnsupportedEncodingException;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 public class TestUtil {
 
@@ -31,5 +34,9 @@ public class TestUtil {
 
     public static RequestPostProcessor userAuth(User user) {
         return SecurityMockMvcRequestPostProcessors.authentication(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+    }
+
+    public static ResultMatcher jsonMessage(String jsonPath, String message) {
+        return jsonPath(jsonPath).value(message);
     }
 }
