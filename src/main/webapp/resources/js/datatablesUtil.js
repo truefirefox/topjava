@@ -83,7 +83,7 @@ function failNoty(jqXHR) {
     console.log(jqXHR.responseText);
     var errorInfo = $.parseJSON(jqXHR.responseText);
     failedNote = noty({
-        text: i18n['common.errorStatus'] + ': ' + jqXHR.status + '<br>'+ errorInfo.cause + '<br>' + errorInfo.detail,
+        text: i18n['common.errorStatus'] + ': ' + jqXHR.status + '<br>'+ errorInfo.cause + '<br>' + errorInfo.details.join("<br>"),
         type: 'error',
         layout: 'bottomRight'
     });
